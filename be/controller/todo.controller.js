@@ -2,7 +2,7 @@
 const Todo = require('../models/todo.model');
 
 exports.todo_getall =  function (req, res, next) {
-    Todo.find({}, function (err, todo) {
+    Todo.find({"active": true }, function (err, todo) {
         if (err) return next(err);
         res.send(todo);
     }) 
@@ -15,6 +15,7 @@ exports.todo_create = function (req, res, next) {
         {
             task: req.body.task,
             completed: req.body.completed ?? 'false',
+            active: true,
         }
     );
     todo.save(function (err) {
@@ -42,8 +43,9 @@ exports.todo_update = function (req, res, next) {
 
 exports.todo_delete = function (req, res, next) {
     console.log(req.params.id);
-    Todo.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
-        res.send('Todo deleted'+req.params.id+'succesfully')
-    })
+    Todo.findByIdAndUpdate(req.params.id, {$set: {active: false}},
+        function (err) {
+            if (err) return next(err);
+            res.send('Todo deleted'+req.params.id+'succesfully')
+        });
 };

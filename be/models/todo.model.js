@@ -4,7 +4,7 @@ const Schema = mongoose.Schema, ObjectId = Schema.ObjectId;
 let TodoSchema = new Schema({
     task: {type: String, required: true, unique: true},
     completed: {type: Boolean, default: false},
+    active: {type: Boolean, default: true},
 });
 
-//Export the model
 module.exports = mongoose.model('Todo', TodoSchema);

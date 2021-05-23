@@ -14,7 +14,6 @@ async function deleteTodo(id) {
 }
 
 async function updateTodo(id, data) {
-  console.log(data);
   await axios.put(`${API_URL}/${id}/update`,data, { params: {
     id
   }});
