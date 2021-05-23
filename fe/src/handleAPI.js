@@ -2,20 +2,22 @@ import axios from "axios";
 
 const API_URL="http://localhost:3000/todo/"
 async function createTodo(task) {
-  const { data: newTodo } = await axios.post(API_URL, {
+  console.log(task);
+  const { data: newTodo } = await axios.post(`${API_URL}/create`, {
     task
   });
   return newTodo;
 }
 
 async function deleteTodo(id) {
-  const message = await axios.delete(`${API_URL}${id}`);
-  return message;
+  await axios.delete(`${API_URL}/${id}/delete`);
 }
 
-async function updateTodo(id, payload) {
-  const {data:newTodo} = await axios.put(`${API_URL}${id}`, payload);
-  return newTodo;
+async function updateTodo(id, data) {
+  console.log(data);
+  await axios.put(`${API_URL}/${id}/update`,data, { params: {
+    id
+  }});
 }
 
 async function getAllTodos() {

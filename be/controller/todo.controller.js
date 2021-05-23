@@ -10,10 +10,11 @@ exports.todo_getall =  function (req, res, next) {
 };
 
 exports.todo_create = function (req, res, next) {
+    console.log(req.body);
     let todo = new Todo(
         {
             task: req.body.task,
-            completed: req.body.completed
+            completed: req.body.completed ?? 'false',
         }
     );
     todo.save(function (err) {
@@ -30,7 +31,8 @@ exports.todo_details = function (req, res, next) {
     })
 };
 
-exports.todo_update = function (req, res) {
+exports.todo_update = function (req, res, next) {
+    console.log(req.params.id);
     Todo.findByIdAndUpdate(req.params.id, {$set: req.body},
         function (err, product) {
             if (err) return next(err);
@@ -38,7 +40,8 @@ exports.todo_update = function (req, res) {
         });
 };
 
-exports.todo_delete = function (req, res) {
+exports.todo_delete = function (req, res, next) {
+    console.log(req.params.id);
     Todo.findByIdAndRemove(req.params.id, function (err) {
         if (err) return next(err);
         res.send('Todo deleted'+req.params.id+'succesfully')
